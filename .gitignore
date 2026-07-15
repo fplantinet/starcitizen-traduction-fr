@@ -1,0 +1,8 @@
+__pycache__/
+docs/superpowers/
+.superpowers/
+
+# dist/global.ini est un artefact publié (pack FR enrichi) — il doit rester versionné
+# malgré les .gitignore globaux qui excluent dist/ (héritage de projets Node).
+!dist/
+!dist/global.ini

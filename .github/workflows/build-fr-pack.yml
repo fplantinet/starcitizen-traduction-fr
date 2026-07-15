@@ -1,0 +1,43 @@
+name: Build FR enriched pack
+
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/build_fr_enriched.py'
+      - 'scripts/test_build_fr_enriched.py'
+      - '.github/workflows/build-fr-pack.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-fr-pack
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Tests unitaires
+        run: python3 scripts/test_build_fr_enriched.py
+      - name: Génération du pack
+        run: python3 scripts/build_fr_enriched.py
+      - name: Commit si changement
+        run: |
+          if git diff --quiet -- dist/global.ini; then
+            echo "Pack inchangé, rien à committer."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add dist/global.ini
+            git commit -m "chore: régénère le pack FR enrichi"
+            git push origin main
+          fi
