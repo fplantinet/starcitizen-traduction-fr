@@ -6,7 +6,6 @@ Règle centrale : le français gagne toujours. Quand un pack se contente d'ajout
 du texte autour de la valeur stock (préfixe/suffixe), l'ajout est greffé sur le
 texte français ; sinon la valeur française est conservée telle quelle.
 
-Spec : docs/superpowers/specs/2026-07-15-pack-fr-enrichi-design.md
 Usage : python3 scripts/build_fr_enriched.py   (exit 0 = OK ; 1 = échec, rien n'est écrit)
 """
 import sys
@@ -16,7 +15,9 @@ from pathlib import Path
 
 RAW = 'https://raw.githubusercontent.com'
 SOURCES = {
-    'stock': f'{RAW}/BeltaKoda/ScCompLangPackRemix/main/LIVE/stock-global.ini',
+    # Stock = l'anglais vanilla de Dymerz : mis à jour à chaque patch par leur
+    # automatisation, il sert d'ancre de greffe toujours alignée sur la version LIVE.
+    'stock': f'{RAW}/Dymerz/StarCitizen-Localization/main/data/Localization/english/global.ini',
     'fr': f'{RAW}/Dymerz/StarCitizen-Localization/main/data/Localization/french_(france)/global.ini',
     'remix': f'{RAW}/BeltaKoda/ScCompLangPackRemix/main/LIVE/data/Localization/english/global.ini',
     'exoae': f'{RAW}/ExoAE/ScCompLangPack/main/ScCompLangPack/data/Localization/english/global.ini',
